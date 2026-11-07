@@ -1,0 +1,8 @@
+{
+  "name": "easyversioning",
+  "version": "0.1.2",
+  "description": "Saves, syncs and shares work for teams, in plain words, with no Git knowledge needed.",
+  "author": { "name": "Belikely United LLP" },
+  "license": "MIT",
+  "repository": "https://github.com/belikely-united/EasyVersioning"
+}
