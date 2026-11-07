@@ -32,19 +32,26 @@ The status line always says one of three things:
 
 ## Install
 
+EasyVersioning is listed in the [Be Likely United marketplace](https://github.com/belikely-united/marketplace).
+
 Inside a terminal session of Claude Code:
 
 ```
-/plugin install easyversioning --marketplace belikely-united/EasyVersioning
+/plugin marketplace add Belikely-United/marketplace
+/plugin install easyversioning@belikely-united
 ```
 
 Or from a shell:
 
 ```bash
-claude plugin install easyversioning --marketplace belikely-united/EasyVersioning
+claude plugin marketplace add Belikely-United/marketplace
 ```
 
-In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `belikely-united/EasyVersioning`, then **Add plugin**.
+```bash
+claude plugin install easyversioning@belikely-united
+```
+
+In the desktop app: click **+** next to the prompt box, then **Plugins**, **Add marketplace** with `Belikely-United/marketplace`, then **Add plugin**.
 
 You need:
 
