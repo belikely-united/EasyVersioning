@@ -226,9 +226,9 @@ export function engine({ run, ask, memo }: Deps, cwd: string) {
   /** A branch with a GitHub twin and nothing of its own has already been merged. */
   async function isFinishedBranch(p: Place) {
     if (p.kind !== 'experiment' || p.branch === null) return false
-    const hasTwin = await passes(['config', `branch.${p.branch}.remote`])
+    const twin = await text(['config', `branch.${p.branch}.merge`])
     return (
-      hasTwin &&
+      twin === `refs/heads/${p.branch}` &&
       (await hasRef(`refs/remotes/origin/${p.home}`)) &&
       (await isInside('HEAD', `origin/${p.home}`))
     )
@@ -727,7 +727,7 @@ export function engine({ run, ask, memo }: Deps, cwd: string) {
     const label = displayName(branch)
     await save('Saved before undoing')
     const undoBranch = await branchNameFor(`undo-${label}`, undefined)
-    if (!(await passes(['switch', '-q', '-c', undoBranch, `origin/${base}`]))) {
+    if (!(await passes(['switch', '-q', '--no-track', '-c', undoBranch, `origin/${base}`]))) {
       return 'I could not start the undo.'
     }
     if (!(await passes(['revert', '--no-edit', sha]))) {
@@ -752,7 +752,7 @@ export function engine({ run, ask, memo }: Deps, cwd: string) {
     await retire(undoBranch, base)
     const archived = `origin/${sharedRef(branch)}`
     if (await hasRef(`refs/remotes/${archived}`)) {
-      if (await passes(['switch', '-q', '-c', branch, archived])) {
+      if (await passes(['switch', '-q', '--no-track', '-c', branch, archived])) {
         await push()
         await git(['push', 'origin', '--delete', sharedRef(branch)], { timeoutMs: NET_MS })
         return `Done. "${label}" is removed for everyone and is back as an experiment.`
@@ -837,7 +837,7 @@ export function engine({ run, ask, memo }: Deps, cwd: string) {
     const home = chosen === undefined ? p.company : `team/${slug(chosen)}`
     if (chosen !== undefined) await updateTeam(home, p)
     const branch = await branchNameFor(name ?? 'New experiment', chosen)
-    const made = await git(['switch', '-q', '-c', branch, `origin/${home}`])
+    const made = await git(['switch', '-q', '--no-track', '-c', branch, `origin/${home}`])
     return made.code === 0
       ? `Started the experiment "${displayName(branch)}". It won't affect anyone.`
       : 'I could not start the experiment. There may be unsaved changes that could not be saved.'

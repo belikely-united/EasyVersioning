@@ -256,8 +256,11 @@ async function main() {
   await sam.kit.act({ action: 'start_experiment', name: 'Team idea' })
   check('a team member gets a team experiment',
     (await sam.git('branch', '--show-current')).endsWith('@checkout'))
+  const namedBranch = await sam.git('branch', '--show-current')
   sam.write('team.txt', 'team work\n')
-  await sam.kit.save('Team work')
+  const namedSave = await sam.kit.save('Team work')
+  check('a named experiment keeps its name after the first save',
+    namedSave.started === undefined && (await sam.git('branch', '--show-current')) === namedBranch, namedSave)
   const teamView = await preview(sam.kit)
   check('sharing goes to the team first', String(teamView.sharesWith).includes('Checkout'), teamView)
   await sam.kit.act({ action: 'share', version: teamView.version, title: 'Team idea', summary: 'x' })
