@@ -568,7 +568,7 @@ export function engine({ run, ask, memo }: Deps, cwd: string) {
     )
     const [title, ...rest] = lines(reply ?? '').map(line => line.trim())
     return {
-      title: title?.replace(/^#+\s*/, '') || displayName(branch),
+      title: title?.replace(/^#+\s*|\*\*/g, '') || displayName(branch),
       bullets: rest.filter(line => line.startsWith('- ')).length
         ? rest.filter(line => line.startsWith('- '))
         : lines(steps).slice(0, 4).map(step => `- ${step}`),
