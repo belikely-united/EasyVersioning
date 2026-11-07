@@ -1,6 +1,6 @@
 {
   "name": "easyversioning",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Saves, syncs and shares work for teams, in plain words, with no Git knowledge needed.",
   "author": { "name": "BeLikely" },
   "license": "MIT",
